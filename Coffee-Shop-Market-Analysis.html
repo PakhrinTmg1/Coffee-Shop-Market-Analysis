@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coffee Shop Market Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F1;--surface:#FFFFFF;--ink:#1E1915;--muted:#5E5851;--line:#D9DDD6;
+  --accent:#1D5B49;--accent-soft:#DCEBE5;--crema:#B9792A;
+  color-scheme:light;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15130F;--surface:#201C17;--ink:#EFEAE3;--muted:#A79F94;--line:#3A342D;
+  --accent:#6FC2A5;--accent-soft:#1F3A31;--crema:#E0A558;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15130F;--surface:#201C17;--ink:#EFEAE3;--muted:#A79F94;--line:#3A342D;--accent:#6FC2A5;--accent-soft:#1F3A31;--crema:#E0A558;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.7 "Source Serif 4",Georgia,serif}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;line-height:1.1;margin:0}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1100px;margin:0 auto;gap:56px;padding:0 24px}
+nav.side{position:sticky;top:0;align-self:start;padding:48px 0;font:500 15px/1.4 "Bricolage Grotesque",sans-serif}
+nav.side strong{display:block;font-size:17px;margin-bottom:20px}
+nav.side a{display:block;color:var(--muted);text-decoration:none;padding:8px 0 8px 14px;border-left:2px solid var(--line)}
+nav.side a:hover,nav.side a.on{color:var(--ink);border-left-color:var(--accent)}
+main{padding:48px 0 96px;max-width:720px}
+header.hero{padding:24px 0 48px;border-bottom:1px solid var(--line);margin-bottom:56px}
+h1{font-size:clamp(40px,7vw,68px);font-weight:700;letter-spacing:-.025em}
+.lede{font-size:21px;color:var(--muted);margin:20px 0 28px;max-width:34em}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.facts div{padding:14px 16px;border-right:1px solid var(--line);font:500 14px/1.35 "Bricolage Grotesque",sans-serif;color:var(--muted)}
+.facts div:last-child{border-right:0}
+.facts b{display:block;font-size:24px;color:var(--ink)}
+section{margin-bottom:72px}
+h2{font-size:clamp(28px,4vw,38px);font-weight:700;letter-spacing:-.015em;margin-bottom:6px}
+.kicker{font:500 15px "Bricolage Grotesque",sans-serif;color:var(--accent);margin:0 0 22px}
+h3{font-size:21px;font-weight:700;margin:34px 0 8px}
+p{margin:0 0 1.1em}
+ul{padding-left:1.2em;margin:0 0 1.2em}li{margin-bottom:.5em}
+figure{margin:32px 0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 18px 12px}
+figcaption{font:500 14px/1.4 "Bricolage Grotesque",sans-serif;color:var(--muted);margin-top:8px}
+svg{display:block;width:100%;height:auto;font:500 12px "Bricolage Grotesque",sans-serif}
+.ax{stroke:var(--muted);stroke-width:1.2;fill:none}
+.t{fill:var(--muted)}.tk{fill:var(--ink)}
+.c1{stroke:var(--accent);stroke-width:2.5;fill:none}
+.c2{stroke:var(--crema);stroke-width:2.5;fill:none}
+.c3{stroke:var(--ink);stroke-width:2;fill:none}
+.dash{stroke:var(--muted);stroke-dasharray:4 4;stroke-width:1;fill:none}
+.ghost{opacity:.55}
+.pill{fill:var(--accent)}
+table{width:100%;border-collapse:collapse;font:500 15px "Bricolage Grotesque",sans-serif;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--accent-soft);font-weight:700}
+tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto;margin:20px 0}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 18px;border-radius:0 6px 6px 0;margin:24px 0;font-size:17px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}
+.cols>div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.cols h3{margin:0 0 8px;font-size:17px}
+.cols ul{margin:0;font-size:16px}
+.mix{display:flex;height:34px;border-radius:5px;overflow:hidden;font:700 14px/34px "Bricolage Grotesque",sans-serif;color:#fff;margin:12px 0 4px}
+.mix span:first-child{background:var(--accent);flex:70;padding-left:12px}.mix span:last-child{background:var(--crema);flex:30;padding-left:12px;color:#1E1915}
+@media (max-width:860px){.shell{grid-template-columns:1fr;gap:0}nav.side{display:none}main{padding-top:24px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="side" aria-label="Sections">
+  <strong>Coffee Shop Market Analysis</strong>
+  <a href="#u1">1. Choice with certainty</a>
+  <a href="#u2">2. Choice with uncertainty</a>
+  <a href="#u3">3. Production and costs</a>
+  <a href="#u4">4. Models of competition</a>
+  <a href="#conclusion">Conclusion</a>
+</nav>
+<main>
+<header class="hero">
+  <h1>Coffee Shop Market Analysis</h1>
+  <p class="lede">Coffee retail is a consumer-driven market full of lessons about choice, uncertainty, costs and competition. This paper applies microeconomic theory to ask one question: should I open a coffee shop?</p>
+  <div class="facts">
+    <div><b>$15</b>max willingness to pay</div>
+    <div><b>$6–7</b>average brew price</div>
+    <div><b>70 / 30</b>capital / labor mix</div>
+    <div><b>Monopolistic</b>competition</div>
+  </div>
+</header>
+
+<section id="u1">
+  <h2>Choice with certainty</h2>
+  <p class="kicker">Why people buy coffee, and how they react to price</p>
+  <p>Coffee delivers taste, caffeine, a social experience and brand identity. Buyers pay for its function (alertness, energy) and its lifestyle meaning (status, routine). Segments run from budget instant-coffee buyers to premium specialty drinkers.</p>
+  <p>These choices follow rational preferences. They are <strong>complete</strong>: a drinker can always compare coffee with tea, boba or energy drinks and say which they prefer, or that they are equal. They are also <strong>transitive</strong>: if someone prefers specialty to instant coffee, and instant coffee to tea, they will prefer specialty coffee to tea.</p>
+  <p>Maximum willingness to pay for brew coffee is $15, and the average price is around $6–7. Demand is elastic because close substitutes are everywhere.</p>
+
+  <div class="cols">
+    <div><h3>Complements</h3><ul><li>Milk</li><li>Sugar</li><li>Pastries</li></ul></div>
+    <div><h3>Substitutes</h3><ul><li>Tea</li><li>Boba tea</li><li>Energy drinks</li><li>Homemade coffee</li></ul></div>
+  </div>
+
+  <h3>Substitution vs. income effect</h3>
+  <p>A coffee price rise triggers both effects, but not equally. With many close substitutes, consumers switch easily, so the substitution effect is strong. Coffee is a small share of most budgets (perhaps 2–5%), so people do not feel meaningfully poorer and the income effect is small. Through the Slutsky decomposition, a price rise pushes people toward substitutes far more than it makes them cut back from lost purchasing power.</p>
+
+  <h3>Worked example</h3>
+  <p>Budget is $100, coffee (x) costs $5 and coffee alternatives (y) cost $4. At the optimum the MRS equals the price ratio, so y = 5x/4. The budget line gives 5x + 4(5x/4) = 100, so the original bundle is <strong>A = (10, 12.5)</strong>.</p>
+  <p>Low bean production this year lifts coffee to $7. Then y = 7x/4 and 7x + 4(7x/4) = 100, so the new bundle is <strong>B = (7.14, 12.5)</strong>.</p>
+  <p>To afford the original bundle at $7 would take an extra (7 − 5) × 10 = $20. With a $120 budget, 7x + 4y = 120 and y = 7x/4 give the compensated bundle <strong>(8.57, 15)</strong>.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Effect</th><th>Calculation</th><th>Change (coffee, alternatives)</th></tr></thead>
+    <tbody>
+      <tr><td>Total</td><td>(7.14, 12.5) − (10, 12.5)</td><td>(−2.86, 0)</td></tr>
+      <tr><td>Substitution</td><td>(8.57, 15) − (10, 12.5)</td><td>(−1.43, +2.5)</td></tr>
+      <tr><td>Income</td><td>(7.14, 12.5) − (8.57, 15)</td><td>(−1.43, −2.5)</td></tr>
+    </tbody></table></div>
+  <div class="callout">The numbers look similar for coffee itself, but substitution is the stronger force in practice. When coffee gets pricier, people still want caffeine. They switch to cheaper tea or energy drinks rather than quit.</div>
+
+  <figure>
+    <svg viewBox="0 0 480 290" role="img" aria-label="Downward sloping demand curve for coffee from $15 at zero quantity to zero price at 2,200 cups">
+      <path class="ax" d="M50 20V240H450"/>
+      <text class="t" x="44" y="24" text-anchor="end">$15</text><text class="t" x="44" y="244" text-anchor="end">0</text>
+      <text class="t" x="50" y="258" text-anchor="middle">0</text>
+      <text class="t" x="222.7" y="258" text-anchor="middle">1,000</text>
+      <text class="t" x="361" y="258" text-anchor="middle">1,800</text>
+      <text class="t" x="430" y="258" text-anchor="middle">2,200</text>
+      <text class="tk" x="50" y="12">Price</text><text class="tk" x="450" y="278" text-anchor="end">Quantity</text>
+      <path class="c1" d="M50 20L430 240"/>
+      <path class="dash" d="M222.7 240V120M361 240V200"/>
+      <circle class="pill" cx="222.7" cy="120" r="4.5"/><circle class="pill" cx="361" cy="200" r="4.5"/>
+      <text class="tk" x="300" y="90">Elastic demand</text>
+    </svg>
+    <figcaption>Demand curve for coffee: elastic because substitutes are close.</figcaption>
+  </figure>
+</section>
+
+<section id="u2">
+  <h2>Choice with uncertainty</h2>
+  <p class="kicker">What buyers and sellers do when they can't be sure</p>
+  <h3>Uncertainty for consumers</h3>
+  <ul>
+    <li><strong>Quality:</strong> will the coffee be fresh, strong and as expected? Unfamiliar brands and new shops raise this risk.</li>
+    <li><strong>Ethical sourcing:</strong> shoppers care about sustainability but may not know if the beans are Fair Trade, organic or responsibly grown.</li>
+    <li><strong>Future value:</strong> will the coffee deliver the energy boost again tomorrow, or was it a one-time experience?</li>
+  </ul>
+  <h3>How consumers reduce it</h3>
+  <p>They spend money and time through <strong>brand loyalty</strong> (paying more for trusted names), <strong>certifications</strong> such as organic or Fair Trade, and <strong>reviews</strong>. The drivers are loss aversion and framing: people fear a bad purchase more than they enjoy a great one, and a shop that frames itself as ethical or eco-friendly wins over an identical competitor. Many buyers feel the extra cost buys peace of mind, consistent quality and a sense of supporting ethical practice. Reassurance from branding, certification or positive framing shapes choices even when the product is the same.</p>
+  <h3>How suppliers reduce it</h3>
+  <ul>
+    <li><strong>Quality control:</strong> training baristas, standardized roasting, freshness guarantees.</li>
+    <li><strong>Predictable pricing:</strong> loyalty programs, daily discounts and subscriptions that bring customers back even if preferences shift (time inconsistency).</li>
+    <li><strong>Insurance and contracts:</strong> long-term supplier agreements and weather insurance to stabilize supply.</li>
+  </ul>
+  <p>These cost real money in training, logistics, premiums and certification fees. Suppliers accept that because committing to quality today builds loyalty, and because customers overweight rare bad experiences (probability weighting), so one mistake can be very costly.</p>
+  <h3>Effect on supply and demand</h3>
+  <p><strong>Demand side:</strong> with an unknown brand, buyers doubt quality and safety, so willingness to pay falls and the demand curve shifts left from D to D₁. <strong>Supply side:</strong> price volatility, crop failure and climate risk raise marginal costs, so the supply curve shifts up from S to S₁. Suppliers need higher prices to supply the same quantity.</p>
+  <figure>
+    <svg viewBox="0 0 480 290" role="img" aria-label="Supply and demand: demand shifts left from D to D1 and supply shifts up from S to S1, lowering quantity from Q* to Q2">
+      <path class="ax" d="M50 20V240H450"/>
+      <text class="tk" x="50" y="12">Price</text><text class="tk" x="450" y="278" text-anchor="end">Quantity</text>
+      <path class="c3" d="M50 40L430 235"/><text class="tk" x="436" y="238">D</text>
+      <path class="c2 ghost" d="M50 75L395 235" /><text class="tk" x="400" y="252">D₁</text>
+      <path class="c3" d="M50 235L400 40"/><text class="tk" x="404" y="42">S</text>
+      <path class="c1" d="M50 190L360 40"/><text class="tk" x="316" y="34">S₁</text>
+      <path class="dash" d="M50 137H235V240"/>
+      <text class="t" x="44" y="141" text-anchor="end">P*</text><text class="t" x="235" y="256" text-anchor="middle">Q*</text>
+      <path class="dash" d="M190 240V132"/><text class="t" x="190" y="256" text-anchor="middle">Q₂</text>
+    </svg>
+    <figcaption>Uncertainty shifts demand left (D to D₁) and supply up (S to S₁). Quantity falls.</figcaption>
+  </figure>
+</section>
+
+<section id="u3">
+  <h2>Production and costs</h2>
+  <p class="kicker">What it takes to run a shop</p>
+  <div class="cols">
+    <div><h3>Fixed costs</h3><ul><li>Rent</li><li>Espresso machine and brewing equipment</li></ul></div>
+    <div><h3>Variable costs</h3><ul><li>Labor: baristas, shift managers, cleaning</li><li>Utilities: water, electricity</li><li>Ingredients: beans, milk</li></ul></div>
+  </div>
+  <h3>Short run</h3>
+  <p>The supply curve is the marginal cost curve above AVC. It is steep because short-run supply is inelastic: a shop has fixed capacity and can serve only so many customers per hour. When prices rise it cannot instantly make more cups, because equipment is fixed and hiring and training baristas takes time.</p>
+  <p>AVC is U-shaped. It falls at first as production becomes more efficient, then rises under diminishing returns. The bottom of the curve is the most efficient output, so I should aim to produce there. If price falls below AVC, I should shut down because even variable costs aren't covered. ATC sits above AVC because it adds average fixed cost, and where price exceeds ATC at the MC intersection, the shop makes a profit.</p>
+  <figure>
+    <svg viewBox="0 0 480 290" role="img" aria-label="Short-run cost curves: MC crossing AVC and ATC at their minimums, with AFC falling">
+      <path class="ax" d="M50 20V240H450"/>
+      <text class="tk" x="50" y="12">$ / output</text><text class="tk" x="450" y="278" text-anchor="end">Q</text>
+      <path d="M60 60C90 190 120 215 380 210" class="c1" style="stroke-dasharray:0" opacity="0"/>
+      <path class="c2" d="M60 40C80 160 110 205 150 218C200 232 330 232 440 232" opacity="0"/>
+      <path class="c1" d="M62 70C90 190 150 205 260 200C330 196 400 150 436 70"/><text class="tk" x="438" y="66">ATC</text>
+      <path class="c2" d="M62 100C95 195 150 215 215 215C300 215 380 170 436 105"/><text class="tk" x="438" y="112">AVC</text>
+      <path class="c3" d="M62 130C100 175 140 200 215 215C300 240 380 130 420 40" opacity="0"/>
+      <path class="c3" d="M150 222L215 215L330 140L420 40" stroke-width="3"/><text class="tk" x="424" y="40">MC</text>
+      <path class="ax" d="M62 60C70 150 120 215 436 228" style="stroke-dasharray:3 3"/><text class="t" x="438" y="232">AFC</text>
+      <path class="dash" d="M215 240V215"/><text class="t" x="215" y="256" text-anchor="middle">Q₂</text>
+      <text class="t" x="260" y="170" transform="rotate(-38 260 170)">Supply curve = MC above AVC</text>
+    </svg>
+    <figcaption>Short-run costs. Supply is the MC curve above the minimum of AVC.</figcaption>
+  </figure>
+  <p>In the long run, supply becomes flatter (more elastic) because I can open new stores, buy equipment and train staff.</p>
+
+  <h3>Capital and labor mix</h3>
+  <p>My shop will be a modern café like Starbucks, so I plan on about 70% capital and 30% labor.</p>
+  <div class="mix" role="img" aria-label="70 percent capital, 30 percent labor"><span>Capital 70%</span><span>Labor 30%</span></div>
+  <p><strong>Why 70% capital:</strong> coffee is capital intensive. Machines grind, brew, steam milk and refrigerate supplies faster and more consistently than hand work. Mobile ordering, automated inventory and digital POS let me serve more people without adding labor in proportion.</p>
+  <p><strong>Why 30% labor:</strong> the human touch matters. Baristas give personal service, shape the atmosphere, maintain machines, handle exceptions and keep quality up.</p>
+
+  <h3>Innovation and policy shocks</h3>
+  <div class="cols">
+    <div><h3>Short run (capital fixed)</h3><ul>
+      <li><strong>AI adoption:</strong> cut labor 5–10% as AI handles repetitive work.</li>
+      <li><strong>Minimum wage rise:</strong> trim shifts on slow days and push labor productivity.</li>
+      <li><strong>Tariffs:</strong> higher ingredient costs, no immediate change to the mix.</li>
+      <li><strong>Rate hikes:</strong> pricier borrowing, same capital/labor mix.</li></ul></div>
+    <div><h3>Long run (both adjust)</h3><ul>
+      <li><strong>AI and automation:</strong> MPK rises, mix moves toward 80/20.</li>
+      <li><strong>Lower rates:</strong> easier to invest in new technology, shifting further toward capital.</li>
+      <li><strong>Higher wages or shortages:</strong> replace expensive labor with cheaper, more reliable capital.</li></ul></div>
+  </div>
+</section>
+
+<section id="u4">
+  <h2>Models of competition</h2>
+  <p class="kicker">Market structure: monopolistic competition</p>
+  <p>Beans are a commodity, but the finished product is not identical. Taste, branding, atmosphere and experience differ, so Starbucks and a local café sell similar drinks with distinct vibes.</p>
+  <p>Barriers to entry are moderate. Anyone can start a shop and get bean supply information, but good locations are mostly held by big firms, and building loyalty in a crowded market makes scaling hard. Information is mostly perfect because prices are visible online. Unlike perfect competition, shops set their own prices based on costs, brand identity and target audience.</p>
+  <p>Demand for my shop is elastic because of many competitors, from Starbucks to small cafés. Differentiation in taste, ambience and environment still gives me some pricing power, though little, which is why marginal revenue sits close to demand. The gap between price and MC at the profit-maximizing quantity is my markup.</p>
+  <figure>
+    <svg viewBox="0 0 480 290" role="img" aria-label="Monopolistic competition: MR equals MC at Q*, price read off the demand curve above, with the markup between price and MC">
+      <path class="ax" d="M50 20V240H450"/>
+      <text class="tk" x="50" y="12">Price</text><text class="tk" x="450" y="278" text-anchor="end">Quantity</text>
+      <path class="c3" d="M60 40L440 230"/><text class="tk" x="420" y="214">Demand (elastic)</text>
+      <path class="c2" d="M60 40L250 230"/><text class="tk" x="256" y="228">MR</text>
+      <path class="c1" d="M60 220L300 60"/><text class="tk" x="304" y="62">MC</text>
+      <path class="dash" d="M168 240V94M50 94H168M50 148H168"/>
+      <circle class="pill" cx="168" cy="94" r="4.5"/><circle cx="168" cy="148" r="4.5" fill="var(--crema)"/>
+      <text class="t" x="168" y="256" text-anchor="middle">Q*</text>
+      <text class="t" x="44" y="98" text-anchor="end">P*</text>
+      <path d="M180 94V148" stroke="var(--accent)" stroke-width="3"/>
+      <text class="tk" x="190" y="125">Markup = P* − MC</text>
+    </svg>
+    <figcaption>The shop produces where MR = MC and charges the price on the demand curve at that quantity.</figcaption>
+  </figure>
+</section>
+
+<section id="conclusion">
+  <h2>Conclusion</h2>
+  <p class="kicker">Entering the market looks viable</p>
+  <p>High demand, flexible pricing and room to differentiate make coffee a strong market for a new business. Even among many competitors, a shop can stand out through taste, atmosphere and branding and keep prices above average total cost. If costs are managed well and trends are followed, the potential for producer surplus is strong. Based on this analysis, becoming a coffee shop owner looks like a good choice.</p>
+</section>
+</main>
+</div>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll("nav.side a"));
+  if(!("IntersectionObserver" in window))return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-30% 0px -60% 0px"});
+  document.querySelectorAll("section[id]").forEach(function(s){io.observe(s)});
+})();
+</script>
+</body>
+</html>
